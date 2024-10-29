@@ -54,6 +54,8 @@ python manage.py runserver
 Frontend (React):
 
 npm install react-router-dom
+npm install axios react-router-dom
+
 npm start
 
 
