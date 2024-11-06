@@ -22,7 +22,7 @@ from django.urls import path, include
 from rest_framework import routers
 from core.views import PostViewSet, TagViewSet
 from rest_framework.authtoken.views import obtain_auth_token
-from core.views import UserDetailView
+from core.views import UserDetailView, PublicPostView
 
 router = routers.DefaultRouter()
 router.register(r'posts', PostViewSet)
@@ -34,4 +34,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api-token-auth/', obtain_auth_token, name='api_token_auth'), 
     path('api/user/', UserDetailView.as_view(), name='user-detail'),
+    path('public/posts/', PublicPostView.as_view(), name = 'public-post-posts'),
+
 ]

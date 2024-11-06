@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
+from core.models import Post
+from core.serializers import PostSerializer #no authentication
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]
@@ -32,3 +35,8 @@ class PostViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+class PublicPostView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [] #권한 설정 없이 공개 접근 허용

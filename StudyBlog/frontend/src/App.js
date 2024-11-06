@@ -21,48 +21,53 @@ const App = () => {
     };
 
     useEffect(() => {
-        if (isLoggedIn) {
-            let url = 'http://127.0.0.1:8000/api/posts/';
-            if (selectedTag) {
-                url += `?tags=${selectedTag}`;
-            }
-            axios.get(url)
-                .then(response => setPosts(response.data || []))
-                .catch(error => {
-                    console.error('Error fetching posts:', error);
-                    setPosts([]);
-                });
+        let url = isLoggedIn ? 'http://127.0.0.1:8000/api/posts/' : 'http://127.0.0.1:8000/public/posts/';
+        if (selectedTag) {
+            url += `?tags=${selectedTag}`;
         }
-    }, [isLoggedIn, selectedTag]);
+        axios.get(url)
+            .then(response => setPosts(response.data || []))
+            .catch(error => {
+                console.error('Error fetching posts:', error);
+                setPosts([]);
+            });
+    }, [selectedTag]);
+
 
     const handleSelectPost = (postId) => {
         setSelectedPost(postId);
     };
 
-    if (!isLoggedIn) {
-        return <Login onLoginSuccess={handleLoginSuccess} />;
-    }
+    // if (!isLoggedIn) {
+    //     return <Login onLoginSuccess={handleLoginSuccess} />;
+    // }
 
     return (
         <Router>
             <div className="App">
-                <aside className="sidebar">
-                    <TagList onSelectTag={setSelectedTag} />
-                    {isAdmin && <AddPostButton />}
-                </aside>
-                <main className="content">
-                    <h1>Angela's Study Room</h1>
-                    <Routes>
-                        <Route path="/create" element={<CreatePost />} />
-                        <Route path="/" element={
-                            selectedPost ? (
-                                <div>상세 페이지</div>
-                            ) : (
-                                <PostList posts={posts} onSelectPost={handleSelectPost} />
-                            )
-                        } />
-                    </Routes>
-                </main>
+                {!isLoggedIn ? (
+                    <Login onLoginSuccess={handleLoginSuccess} />
+                ) : (
+                    <>
+                        <aside className="sidebar">
+                            <TagList posts={posts} onSelectTag={setSelectedTag} />
+                            {isAdmin && <AddPostButton />}
+                        </aside>
+                        <main className="content">
+                            <h1>Angela's Study Room</h1>
+                            <Routes>
+                                <Route path="/create" element={<CreatePost />} />
+                                <Route path="/" element={
+                                    selectedPost ? (
+                                        <div>상세 페이지</div>
+                                    ) : (
+                                        <PostList posts={posts} onSelectPost={handleSelectPost} />
+                                    )
+                                } />
+                            </Routes>
+                        </main>
+                    </>
+                )}
             </div>
         </Router>
     );

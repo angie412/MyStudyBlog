@@ -15,13 +15,22 @@ const CreatePost = ({ onPostCreated }) => {
         setError('');
         setSuccessMessage('');
 
+
+        const PostData = {
+            title,
+            content,
+            tags
+        };
+
+        console.log({
+            title,
+            content,
+            tags: tags.split(',').map(tag => tag.trim())
+        });
+
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/posts/', {
-                title,
-                content,
-                tags: tags.split(',').map(tag => tag.trim()) // 쉼표로 구분된 태그 목록
-            });
-            
+            const response = await axios.post('http://127.0.0.1:8000/api/posts/', postData);
+                 
             setSuccessMessage('Post created successfully!');
             setTitle('');
             setContent('');

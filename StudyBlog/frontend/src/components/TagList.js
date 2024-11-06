@@ -1,13 +1,19 @@
+// src/components/TagList.js
+
 import React from 'react';
 
-const TagList = ({ tags = [], onSelectTag }) => (
-    <div className="tag-list">
-        {tags.map(tag => (
-            <button key={tag.id} onClick={() => onSelectTag(tag.id)}>
-                {tag.name}
-            </button>
-        ))}
-    </div>
-);
+const TagList = ({ posts, onSelectTag }) => {
+    const uniqueTags = Array.from(new Set(posts.flatMap(post => post.tags.split(',').map(tag => tag.trim()))));
+
+    return (
+        <div className="tag-list">
+            {uniqueTags.map(tag => (
+                <button key={tag} onClick={() => onSelectTag(tag)}>
+                    {tag}
+                </button>
+            ))}
+        </div>
+    );
+};
 
 export default TagList;
