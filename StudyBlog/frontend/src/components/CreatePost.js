@@ -16,20 +16,23 @@ const CreatePost = ({ onPostCreated }) => {
         setSuccessMessage('');
 
 
-        const PostData = {
+        const tagArray = tags.split(',').map(tag => tag.trim());
+
+        // 전송할 데이터 정의
+        const postData = {
             title,
             content,
-            tags
+            tags: tagArray // 태그는 배열로 전송
         };
 
-        console.log({
-            title,
-            content,
-            tags: tags.split(',').map(tag => tag.trim())
-        });
+        console.log('Post Data to send:', postData);
 
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/posts/', postData);
+            const response = await axios.post('http://127.0.0.1:8000/api/posts/',{
+                title,
+                content,
+                tags: tags.split(',').map(tag => tag.trim()),
+            });
                  
             setSuccessMessage('Post created successfully!');
             setTitle('');

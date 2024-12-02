@@ -13,8 +13,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import generics
-from core.models import Post
-from core.serializers import PostSerializer #no authentication
+from core.models import Post, Tag
+from core.serializers import PostSerializer, TagSerializer #no authentication
 
 class UserDetailView(APIView):
     permission_classes = [IsAuthenticated]

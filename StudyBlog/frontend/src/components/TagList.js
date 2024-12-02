@@ -3,7 +3,7 @@
 import React from 'react';
 
 const TagList = ({ posts, onSelectTag }) => {
-    const uniqueTags = Array.from(new Set(posts.flatMap(post => post.tags.split(',').map(tag => tag.trim()))));
+    const uniqueTags = Array.from(new Set(posts.flatMap(post => post.tags)));
 
     return (
         <div className="tag-list">
